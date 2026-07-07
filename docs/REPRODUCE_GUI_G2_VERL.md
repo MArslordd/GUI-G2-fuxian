@@ -16,6 +16,7 @@ The verl implementation is in `gui_g2_verl/reward.py`.
 
 Use `likaixin/ScreenSpot-v2-variants` by default. It has 755 ScreenSpot-v2 rows, images, and multiple instruction styles, so it is small enough for a local reproduction while staying close to the paper's ScreenSpot-v2 evaluation setting.
 The dataset only provides a `train` split, so the preparation script shuffles that split and then creates local `train.parquet` and `val.parquet` files.
+If Hugging Face loads only the image column, the script automatically falls back to the repository's `annotations/*.json` or `annotations/*.jsonl` files and downloads only the selected sample images.
 
 Prepare a tiny parquet split:
 
