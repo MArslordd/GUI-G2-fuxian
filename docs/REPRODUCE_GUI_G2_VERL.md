@@ -15,6 +15,7 @@ The verl implementation is in `gui_g2_verl/reward.py`.
 ## Dataset Choice
 
 Use `likaixin/ScreenSpot-v2-variants` by default. It has 755 ScreenSpot-v2 rows, images, and multiple instruction styles, so it is small enough for a local reproduction while staying close to the paper's ScreenSpot-v2 evaluation setting.
+The dataset only provides a `train` split, so the preparation script shuffles that split and then creates local `train.parquet` and `val.parquet` files.
 
 Prepare a tiny parquet split:
 

@@ -99,7 +99,7 @@ def _to_verl_row(example: dict[str, Any], idx: int, args: argparse.Namespace) ->
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", default="likaixin/ScreenSpot-v2-variants")
-    parser.add_argument("--split", default="test")
+    parser.add_argument("--split", default="train")
     parser.add_argument("--output-dir", default="data/screenspot_v2_verl")
     parser.add_argument("--max-train-samples", type=int, default=64)
     parser.add_argument("--max-val-samples", type=int, default=16)
