@@ -101,7 +101,7 @@ def _choose_image_key(example: dict[str, Any], requested: str | None) -> str | N
         print(f"Warning: requested image field {requested!r} was not found; falling back to auto-detection.")
     return _first_key(
         example,
-        ["image", "img", "screenshot", "image_path", "img_path", "file_name", "filename", "image_filename"],
+        ["image", "img", "screenshot", "image_path", "img_path", "img_filename", "file_name", "filename", "image_filename"],
     )
 
 
@@ -121,7 +121,7 @@ def _read_annotation_file(path: str) -> list[dict[str, Any]]:
 
 def _find_image_repo_path(example: dict[str, Any], image_files: dict[str, str]) -> str | None:
     image_value = None
-    for key in ["image", "img", "screenshot", "image_path", "img_path", "file_name", "filename", "image_filename"]:
+    for key in ["image", "img", "screenshot", "image_path", "img_path", "img_filename", "file_name", "filename", "image_filename"]:
         if key in example and isinstance(example[key], str):
             image_value = example[key]
             break
@@ -129,7 +129,9 @@ def _find_image_repo_path(example: dict[str, Any], image_files: dict[str, str]) 
         return None
     normalized = image_value.replace("\\", "/")
     basename = os.path.basename(normalized)
-    return image_files.get(normalized) or image_files.get(basename)
+    if normalized in image_files or basename in image_files:
+        return image_files.get(normalized) or image_files.get(basename)
+    return next((repo_path for repo_path in image_files.values() if repo_path.endswith(normalized)), None)
 
 
 def _load_examples_from_hf_annotations(args: argparse.Namespace, total: int) -> list[dict[str, Any]]:
