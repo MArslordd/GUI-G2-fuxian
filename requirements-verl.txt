@@ -1,0 +1,4 @@
+datasets
+pillow
+pyarrow
+qwen-vl-utils
