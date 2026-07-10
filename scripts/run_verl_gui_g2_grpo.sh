@@ -31,9 +31,9 @@ python3 -m verl.trainer.main_ppo \
     data.truncation=error \
     reward.custom_reward_function.path=gui_g2_verl/reward.py \
     reward.custom_reward_function.name=compute_score \
-    reward.custom_reward_function.reward_kwargs.point_weight=0.45 \
-    reward.custom_reward_function.reward_kwargs.coverage_weight=0.45 \
-    reward.custom_reward_function.reward_kwargs.format_weight=0.10 \
+    +reward.custom_reward_function.reward_kwargs.point_weight=0.45 \
+    +reward.custom_reward_function.reward_kwargs.coverage_weight=0.45 \
+    +reward.custom_reward_function.reward_kwargs.format_weight=0.10 \
     actor_rollout_ref.model.path="${MODEL_PATH}" \
     actor_rollout_ref.model.use_remove_padding=True \
     actor_rollout_ref.model.enable_gradient_checkpointing=True \
