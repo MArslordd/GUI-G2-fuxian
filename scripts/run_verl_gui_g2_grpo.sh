@@ -56,6 +56,7 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.response_length="${MAX_RESPONSE_LENGTH}" \
     actor_rollout_ref.rollout.log_prob_micro_batch_size_per_gpu=1 \
     actor_rollout_ref.rollout.enable_chunked_prefill=False \
+    actor_rollout_ref.rollout.agent.num_workers=1 \
     trainer.project_name="${PROJECT_NAME}" \
     trainer.experiment_name="${EXPERIMENT_NAME}" \
     trainer.use_v1=False \
