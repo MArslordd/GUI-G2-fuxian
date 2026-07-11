@@ -14,7 +14,8 @@ CUDA_WHEEL=${CUDA_WHEEL:-cu124}
 VLLM_VERSION=${VLLM_VERSION:-0.8.5.post1}
 FLASH_ATTN_VERSION=${FLASH_ATTN_VERSION:-2.7.4.post1}
 PIP_INDEX_URL=${PIP_INDEX_URL:-https://pypi.tuna.tsinghua.edu.cn/simple}
-TORCH_INDEX_URL=${TORCH_INDEX_URL:-https://download.pytorch.org/whl/${CUDA_WHEEL}}
+TORCH_INDEX_URL=${TORCH_INDEX_URL:-}
+TORCH_FIND_LINKS=${TORCH_FIND_LINKS:-https://mirrors.aliyun.com/pytorch-wheels/${CUDA_WHEEL}/}
 REPO_ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 VERL_PATH=${VERL_PATH:-$(cd "${REPO_ROOT}/.." && pwd)/verl}
 
@@ -36,11 +37,19 @@ conda activate "${ENV_NAME}"
 python -m pip install -U pip setuptools wheel packaging ninja psutil \
     -i "${PIP_INDEX_URL}"
 
-python -m pip install \
-    "torch==${TORCH_VERSION}+${CUDA_WHEEL}" \
-    "torchvision==${TORCHVISION_VERSION}+${CUDA_WHEEL}" \
-    "torchaudio==${TORCHAUDIO_VERSION}+${CUDA_WHEEL}" \
-    --index-url "${TORCH_INDEX_URL}"
+TORCH_PACKAGES=(
+    "torch==${TORCH_VERSION}+${CUDA_WHEEL}"
+    "torchvision==${TORCHVISION_VERSION}+${CUDA_WHEEL}"
+    "torchaudio==${TORCHAUDIO_VERSION}+${CUDA_WHEEL}"
+)
+
+if [ -n "${TORCH_INDEX_URL}" ]; then
+    python -m pip install "${TORCH_PACKAGES[@]}" --index-url "${TORCH_INDEX_URL}"
+else
+    python -m pip install "${TORCH_PACKAGES[@]}" \
+        -i "${PIP_INDEX_URL}" \
+        --find-links "${TORCH_FIND_LINKS}"
+fi
 
 python -m pip install -r "${REPO_ROOT}/requirements-verl.txt" -i "${PIP_INDEX_URL}"
 
