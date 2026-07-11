@@ -18,6 +18,10 @@ TEST_FREQ=${TEST_FREQ:-10}
 MAX_PROMPT_LENGTH=${MAX_PROMPT_LENGTH:-1024}
 MAX_RESPONSE_LENGTH=${MAX_RESPONSE_LENGTH:-128}
 
+if ! python3 -c "import flash_attn" >/dev/null 2>&1; then
+    export PYTHONPATH="$(pwd)/compat:${PYTHONPATH:-}"
+fi
+
 python3 -m verl.trainer.main_ppo \
     algorithm.adv_estimator=grpo \
     algorithm.use_kl_in_reward=False \
